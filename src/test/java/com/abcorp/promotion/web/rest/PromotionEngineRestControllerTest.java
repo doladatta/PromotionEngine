@@ -1,7 +1,6 @@
 package com.abcorp.promotion.web.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -12,12 +11,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.abcorp.promotion.service.PromotionServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -31,10 +33,14 @@ class PromotionEngineRestControllerTest {
 
 	@InjectMocks
 	private PromotionEngineRestController promotionEngineRestController;
+	
+	@Autowired
+	PromotionServiceImpl promotionService;
 
 
 	@BeforeEach
 	void setUp() throws Exception {
+		ReflectionTestUtils.setField(promotionEngineRestController, "promotionService", promotionService);
 		mockMvc = MockMvcBuilders.standaloneSetup(promotionEngineRestController)
 				.build();
 	}
