@@ -17,7 +17,7 @@ public class PromotionUtil {
 	@Autowired
 	Map<String, Sku> skuProducts;
 	
-	public List<Promotion> getPromotions(){
+	private List<Promotion> getPromotions(){
 		// TODO : read from config/bean later
 		
 		List<Promotion> promotions = new ArrayList<Promotion>();
