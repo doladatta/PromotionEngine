@@ -18,7 +18,7 @@ public class PromotionEngineRestController {
 	private PromotionService promotionService;
 	
 	@PostMapping(value = "/cart/promotions/apply", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> applyPromotionsToCart(@RequestBody Map<String, Double> cart) throws Exception {
+	public ResponseEntity<?> applyPromotionsToCart(@RequestBody Map<String, Integer> cart) throws Exception {
 		
 		Double cartValue = promotionService.calculateTotalOrderValue(cart);
 		

@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface PromotionService {
 	
-	Double calculateTotalOrderValue(Map<String,Double> cart) ;
+	Double calculateTotalOrderValue(Map<String,Integer> cart) ;
 
 }
