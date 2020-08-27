@@ -1,9 +1,10 @@
 package com.abcorp.promotion.service;
 
-import java.util.Map;
+import com.abcorp.promotion.domain.Cart;
+import com.abcorp.promotion.domain.Invoice;
 
 public interface PromotionService {
 	
-	Double calculateTotalOrderValue(Map<String,Integer> cart) ;
+	Invoice calculateTotalOrderValue(Cart cart) ;
 
 }
