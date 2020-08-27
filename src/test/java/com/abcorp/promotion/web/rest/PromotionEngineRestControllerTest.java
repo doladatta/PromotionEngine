@@ -1,6 +1,7 @@
 package com.abcorp.promotion.web.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.abcorp.promotion.domain.Cart;
 import com.abcorp.promotion.service.PromotionServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -46,19 +48,76 @@ class PromotionEngineRestControllerTest {
 	}
 
 	@Test
-	void testApplyPromotionsToCart() throws IOException, Exception {
+	void testApplyPromotionsToCart1() throws IOException, Exception {
 		
 		// Given
-		Map<String, Integer> request = new HashMap<String, Integer>();
+		Map<String, Integer> cartItems = new HashMap<String, Integer>();
+		cartItems.put("A", 1);
+		cartItems.put("B", 1);
+		cartItems.put("C", 1);
+		Cart cart = new Cart();
+		cart.setCart(cartItems);
+		Double expectedValue = 100.0;
 		// When
 			// TBD
 		// Then
 		mockMvc.perform(post("/cart/promotions/apply")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
-				.content(convertObjectToJsonBytes(request )))
-				.andExpect(status().isOk());
+				.content(convertObjectToJsonBytes(cart)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.value").exists())
+				.andExpect(jsonPath("$.value").value(expectedValue));
 	}
+	
+	@Test
+	void testApplyPromotionsToCart2() throws IOException, Exception {
+		
+		// Given
+		Map<String, Integer> cartItems = new HashMap<String, Integer>();
+		cartItems.put("A", 5);
+		cartItems.put("B", 5);
+		cartItems.put("C", 1);
+		Cart cart = new Cart();
+		cart.setCart(cartItems);
+		Double expectedValue = 370.0;
+		// When
+			// TBD
+		// Then
+		mockMvc.perform(post("/cart/promotions/apply")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(convertObjectToJsonBytes(cart)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.value").exists())
+				.andExpect(jsonPath("$.value").value(expectedValue));
+	}
+	
+	@Test
+	void testApplyPromotionsToCart3() throws IOException, Exception {
+		
+		// Given
+		Map<String, Integer> cartItems = new HashMap<String, Integer>();
+		cartItems.put("A", 3);
+		cartItems.put("B", 5);
+		cartItems.put("C", 1);
+		cartItems.put("D", 1);
+		Cart cart = new Cart();
+		cart.setCart(cartItems);
+		Double expectedValue = 280.0;
+		// When
+			// TBD
+		// Then
+		mockMvc.perform(post("/cart/promotions/apply")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(convertObjectToJsonBytes(cart)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.value").exists())
+				.andExpect(jsonPath("$.value").value(expectedValue));
+	}
+	
+	
 	
 	private static ObjectMapper createObjectMapper() {
 		ObjectMapper mapper = new ObjectMapper();
