@@ -46,10 +46,14 @@ public class PromotionUtil {
 	
 	public Invoice applyPromotions(final Cart cartObj) {
 		
+		// Copy Cart
+		Map<String, Integer> cartDuplicate = new HashMap<String, Integer>();
+		cartDuplicate.putAll(cartObj.getCart());
+		
 		Invoice invoice = new Invoice();
 		invoice.setCart(cartObj);
 		
-		Map<String, Integer> cart = cartObj.getCart();
+		Map<String, Integer> cart = cartDuplicate;
 		List<Promotion> promotions = getPromotions();
 		
 		Set<String> cartProductCodes = cart.keySet();
