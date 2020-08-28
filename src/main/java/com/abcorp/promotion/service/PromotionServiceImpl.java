@@ -1,16 +1,19 @@
 package com.abcorp.promotion.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.abcorp.promotion.domain.Cart;
 import com.abcorp.promotion.domain.Invoice;
 import com.abcorp.promotion.utility.PromotionUtil;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class PromotionServiceImpl implements PromotionService{
 	
-	@Autowired
+	@NonNull
 	private PromotionUtil promotionUtil;
 	
 	@Override
