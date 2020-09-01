@@ -119,4 +119,5 @@ class PromotionUtilTest {
 		// Then
 		assertEquals(expectedCartValue, actualInvoice.getValue());
 	}
+
 }
