@@ -21,10 +21,24 @@ public class PromotionUtil {
 	
 	private static final Logger logger = LogManager.getLogger(PromotionUtil.class);
 	
-	private Map<String, Sku> skuProducts = getSkus();
-	private int noOfPromotionsApplicable = 3;
+	private final Map<String, Sku> skuProducts = configureSkus();
+	private final int noOfPromotionsApplicable = 3;
+	private final List<Promotion> promotions = configurePromotions();
 	
-	private List<Promotion> getPromotions(){
+	
+	public Map<String, Sku> getSkuProducts() {
+		return skuProducts;
+	}
+
+	public int getNoOfPromotionsApplicable() {
+		return noOfPromotionsApplicable;
+	}
+
+	public List<Promotion> getPromotions() {
+		return promotions;
+	}
+
+	private List<Promotion> configurePromotions(){
 		// TODO : read from config/bean later
 		List<Promotion> promotions = new ArrayList<Promotion>();
 		Promotion promotion1 = new Promotion("NIP","A",3,130);
@@ -38,7 +52,7 @@ public class PromotionUtil {
 		return promotions;
 	}
 	
-	private Map<String, Sku> getSkus(){
+	private Map<String, Sku> configureSkus(){
 		Map<String, Sku> skuProducts = new HashMap<String, Sku>();
 		skuProducts.put("A", new Sku("A", 50.0));
 		skuProducts.put("B", new Sku("B", 30.0));
@@ -57,14 +71,12 @@ public class PromotionUtil {
 		invoice.setCart(cartObj);
 		
 		Map<String, Integer> cart = cartDuplicate;
-		List<Promotion> promotions = getPromotions();
 		
 		Set<String> cartProductCodes = cart.keySet();
 		
 		boolean isPromotionApplied = false;
 		
 		List<Promotion> aplicablePromotions = new ArrayList<Promotion>();
-//		Promotion aplicablePromotion = null;
 		
 		for(int i=0 ; i < promotions.size() ; i++) {
 			Promotion promotion = promotions.get(i);
@@ -109,7 +121,7 @@ public class PromotionUtil {
 		invoice.setAppliedPromotions(aplicablePromotions);
 		invoice.setValue(value);
 		
-		return invoice ;//applyPromotionOnCartForFinalValue(cart, aplicablePromotions);
+		return invoice ;
 		
 		
 	}
@@ -150,7 +162,6 @@ public class PromotionUtil {
 				finalValue = finalValue + 
 						(orderedQty*sku.getUnitPrice());
 				cart.put(promPrdCds[0],0);
-				//finalValue = finalValue + calculateEachItemByPrice(cart);
 				
 			}else if(promoCode.equals("PERP")) {
 				// Percentage calculation TBD
