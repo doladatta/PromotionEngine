@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -17,6 +19,7 @@ import com.abcorp.promotion.domain.Sku;
 @Component
 public class PromotionUtil {
 	
+	private static final Logger logger = LogManager.getLogger(PromotionUtil.class);
 	
 	private Map<String, Sku> skuProducts = getSkus();
 	private int noOfPromotionsApplicable = 3;
@@ -137,6 +140,7 @@ public class PromotionUtil {
 			Double promoval = appliedPromotion.getPromotionValue();
 			String promoCode = appliedPromotion.getPromotionCode();
 			if(promoCode.equals("NIP")) {
+				logger.info("Applying promotion NIP");
 				int orderedQty = cart.get(promPrdCds[0]);
 				while(orderedQty>=promoQty) {
 					finalValue = finalValue + promoval;
@@ -151,6 +155,7 @@ public class PromotionUtil {
 			}else if(promoCode.equals("PERP")) {
 				// Percentage calculation TBD
 			}else if(promoCode.equals("COMP")) {
+				logger.info("Applying promotion COMP");
 				int noOfPrmPrd = promPrdCds.length;
 				int minQty = 0;
 				for(int i=0; i<noOfPrmPrd ; i++) {
