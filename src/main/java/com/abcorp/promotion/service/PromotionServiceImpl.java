@@ -9,22 +9,24 @@ import com.abcorp.promotion.domain.Invoice;
 import com.abcorp.promotion.utility.PromotionUtil;
 
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Service
-public class PromotionServiceImpl implements PromotionService{
-	
+public class PromotionServiceImpl implements PromotionService {
+
 	private static final Logger logger = LogManager.getLogger(PromotionServiceImpl.class);
-	
+
 	@NonNull
 	private PromotionUtil promotionUtil;
-	
+
+	public PromotionServiceImpl() {
+		promotionUtil = new PromotionUtil();
+	}
+
 	@Override
 	public Invoice calculateTotalOrderValue(final Cart cart) {
 		logger.info("In service Cart : {}", cart);
 		return promotionUtil.applyPromotions(cart);
-		
+
 	}
 
 }
